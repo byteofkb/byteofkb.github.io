@@ -1,0 +1,851 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Kirubiel G. — Senior IT Support & Web Projects</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* Reset & base */
+    :root{
+      --bg-a: linear-gradient(135deg,#0f172a 0%,#001e3c 50%,#06364a 100%);
+      --card: rgba(255,255,255,0.06);
+      --glass: rgba(255,255,255,0.06);
+      --accent: #60a5fa;
+      --muted: #94a3b8;
+      --glass-border: rgba(255,255,255,0.08);
+      --max-w: 1100px;
+      --glass-blur: 10px;
+      --radius: 14px;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;
+      background: var(--bg-a);
+      color:#e6eef8;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
+      padding:40px 20px; /* Default desktop padding */
+      display:flex;align-items:flex-start;justify-content:center;
+    }
+
+    .wrap{width:100%;max-width:var(--max-w)}
+
+    header{
+      display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;
+    }
+
+    .brand{
+      display:flex;gap:14px;align-items:center
+    }
+    .logo{
+      height:56px;width:56px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,#7dd3fc,#60a5fa);color:#022;box-shadow:0 6px 24px rgba(2,6,23,0.6);
+      font-weight:800;font-size:18px
+    }
+    .brand h1{font-size:20px;font-weight:700}
+    .brand p{font-size:13px;color:var(--muted);margin-top:2px}
+
+    nav a{color:rgba(230,238,248,0.9);text-decoration:none;margin-left:18px;font-weight:600;font-size:14px}
+    nav a:hover{text-decoration:underline; color:var(--accent);}
+
+    /* Layout */
+    .grid{display:grid;grid-template-columns:330px 1fr;gap:24px}
+
+    /* Sidebar */
+    .sidebar{
+      background:var(--glass);
+      border:1px solid var(--glass-border);
+      border-radius:var(--radius);
+      padding:18px;backdrop-filter: blur(var(--glass-blur));
+      box-shadow:0 10px 30px rgba(2,6,23,0.6);
+    }
+
+    .photo{height:120px;width:120px;border-radius:12px;overflow:hidden;background:linear-gradient(180deg,#e6eef8, #c7e6ff);display:flex;align-items:center;justify-content:center;color:#062; font-weight:700}
+    .contact{margin-top:12px;font-size:14px;color:var(--muted)}
+    .contact a{color:#e6f2ff;text-decoration:none}
+
+    .skills{margin-top:18px}
+    .chip{display:inline-block;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.04);padding:6px 10px;border-radius:999px;margin:6px 6px 0 0;font-size:13px;color:#dceeff}
+    .chip-list{margin-top:8px} /* Added for structure */
+
+    /* Main content */
+    .main-card{
+      background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+      border-radius:var(--radius);
+      padding:20px;border:1px solid var(--glass-border);backdrop-filter:blur(var(--glass-blur));
+      box-shadow:0 12px 30px rgba(2,6,23,0.6);
+    }
+
+    .hero{
+      display:flex;align-items:center;gap:18px;margin-bottom:18px;flex-wrap:wrap
+    }
+    .hero .title{flex:1}
+    .title h2{font-size:20px;margin-bottom:4px}
+    .title p{color:var(--muted);font-size:14px}
+    .cta{display:flex;gap:10px}
+    .btn{background:linear-gradient(90deg,#60a5fa,#3b82f6);color:#042;border-radius:10px;padding:10px 14px;font-weight:700;text-decoration:none}
+    .ghost{background:transparent;border:1px solid rgba(255,255,255,0.08);padding:10px 14px;border-radius:10px;color:var(--muted);text-decoration:none;}
+
+    h3{color:#e6f6ff;margin-bottom:8px}
+    p.lead{color:var(--muted);margin-bottom:14px}
+
+    /* Cards */
+    .card{background:rgba(3,7,18,0.45);padding:16px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);margin-bottom:14px}
+    
+    /* Nested Card/Project Toggle Styling */
+    .nested-card {
+        background: rgba(255, 255, 255, 0.05); 
+        padding: 15px;
+        border-radius: 8px;
+        margin-top: 15px;
+    }
+    .project-header {
+        color: var(--accent);
+        margin-top: 0;
+        margin-bottom: 0;
+        padding-bottom: 5px;
+        border-bottom: 1px solid var(--glass-border);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        user-select: none;
+        font-size: 16px; 
+    }
+    .project-header:hover {
+        opacity: 0.9;
+    }
+    .project-toggle-content {
+        max-height: 2000px; 
+        overflow: hidden;
+        transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out;
+        opacity: 1;
+        padding-top: 15px;
+    }
+    .project-toggle-content.hidden {
+        max-height: 0;
+        opacity: 0;
+        padding-top: 0;
+    }
+    .toggle-icon {
+        font-size: 1.2em;
+        transition: transform 0.3s ease;
+    }
+    .rotated {
+        transform: rotate(90deg);
+    }
+    
+    .resume-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .resume-grid h4{margin-bottom:6px}
+    ul{margin-left:18px; list-style-type: disc; color:var(--muted); font-size:14px;} 
+    ul li { margin-bottom: 6px; } 
+    
+    /* Project Grid Styling (For the overview links) */
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-top: 14px;
+    }
+    .project-tile {
+      display: block;
+      background: rgba(255,255,255,0.02);
+      padding: 12px;
+      border-radius: 10px;
+      text-align: center;
+      text-decoration: none;
+      color: #e6f6ff;
+      border: 1px solid rgba(255,255,255,0.03);
+      transition: all 0.3s ease;
+    }
+    .project-tile:hover {
+      background: rgba(96, 165, 250, 0.1); 
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+    .project-tile img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+    .p-title {
+      font-weight: 600;
+      font-size: 15px;
+    }
+    
+    /* Project Detail Styling */
+    .project-detail-section h4 {
+        color: var(--accent);
+        margin-top: 20px;
+        border-bottom: 1px solid var(--glass-border);
+        padding-bottom: 5px;
+        margin-bottom: 15px;
+    }
+    .project-detail-section p {
+        color: var(--muted);
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+    .project-detail-section .nested-card strong {
+        color: #e6f6ff;
+    }
+    /* Styling for nested forms to integrate with the main aesthetic */
+    .project-detail-section input[type="text"], 
+    .project-detail-section input[type="email"], 
+    .project-detail-section input[type="number"], 
+    .project-detail-section select,
+    .project-detail-section textarea {
+        display: block;
+        width: 60%;
+        padding: 8px 10px;
+        margin-bottom: 15px;
+        border: 1px solid var(--glass-border);
+        border-radius: 8px;
+        background: rgba(0,0,0,0.2);
+        color: #e6f6ff;
+        font-size: 14px;
+    }
+    .project-detail-section .form-submit-btn {
+        background: linear-gradient(90deg,#60a5fa,#3b82f6);
+        color: #042;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 700;
+    }
+    .project-detail-section .form-submit-btn:hover {
+        opacity: 0.9;
+    }
+    .project-detail-section label {
+        display: block;
+        margin-bottom: 5px;
+        color: #e6f6ff;
+        font-size: 14px;
+    }
+    .project-detail-section iframe {
+        max-width: 100%;
+        border-radius: 8px;
+        margin-top: 10px;
+    }
+
+
+    /* Message Form Styling (For the main contact form) */
+    .message_form-div {
+      position: relative;
+      margin-bottom: 1.5rem;
+      height: 2.5rem; 
+    }
+    .message_form-area {
+        height: 8rem;
+    }
+    .message_form-input {
+      z-index: 1;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 1px solid var(--glass-border);
+      background: rgba(0,0,0,0.2);
+      color: #e6f6ff;
+      outline: none;
+      padding: .5rem;
+      border-radius: 8px;
+      font-family: inherit;
+    }
+    .message_form-input::placeholder {
+        color: var(--muted);
+    }
+    .message_form-tag {
+      z-index: 200;
+      position: absolute;
+      top: -.75rem;
+      left: 1rem;
+      font-size: 12px;
+      padding: 0 .5rem;
+      background-color: rgba(3,7,18,0.8); 
+      color: var(--accent);
+    }
+    /* End Message Form Styling */
+
+    /* Contact Icons (Integrated from index.html) */
+    #contact-icon {
+        display: flex;
+        gap: 16px;
+        margin-top: 10px;
+    }
+    #contact-icon a img {
+        width: 28px;
+        height: 28px;
+        border-radius: 0; 
+    }
+
+
+    /* Availability table refined (Original Resume.html) */
+    table{width:100%;border-collapse:collapse;background:transparent}
+    th,td{padding:10px;border-bottom:1px dashed rgba(255,255,255,0.04);text-align:left;font-size:14px}
+    th{color:var(--muted);font-size:13px}
+    .switch{position:relative;display:inline-block;width:44px;height:24px}
+    .switch input{display:none}
+    .slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background:#223;transition:.25s;border-radius:999px;border:1px solid rgba(255,255,255,0.06)}
+    .slider:before{content:"";position:absolute;height:18px;width:18px;left:3px;bottom:2.5px;background:#fff;border-radius:50%;transition:.25s}
+    input:checked + .slider{background:linear-gradient(90deg,#38bdf8 0%,#60a5fa 100%)}
+    input:checked + .slider:before{transform:translateX(20px)}
+
+    /* Footer */
+    footer{margin-top:22px;color:var(--muted);font-size:13px;text-align:center}
+
+    /* ********************************************************** */
+    /* MOBILE SPECIFIC STYLES (Max Width 900px)         */
+    /* ********************************************************** */
+    @media (max-width: 900px) {
+      body {
+        padding: 20px 15px; /* Reduced vertical padding */
+      }
+      
+      /* 1. Collapse Main Grid */
+      .grid {
+        grid-template-columns: 1fr;
+      }
+      .sidebar {
+        order: 2; /* Moves sidebar content below the main content */
+        margin-top: 20px;
+      }
+
+      /* 2. Responsive Navigation */
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      nav {
+        margin-top: 15px;
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap; /* Allows links to wrap */
+        justify-content: space-around; /* Spreads links out */
+      }
+      nav a {
+        margin: 5px 8px; /* Reduced spacing between links */
+        font-size: 15px;
+        padding: 5px 0;
+      }
+
+      /* 3. Simplify Grids */
+      .resume-grid {
+        grid-template-columns: 1fr; /* Skills stack vertically */
+      }
+      .project-grid {
+        grid-template-columns: 1fr 1fr; /* Projects look better in 2 columns on small screens */
+        gap: 10px;
+      }
+      
+      /* 4. Improve Sidebar Stacking */
+      .sidebar > div:first-child {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      .sidebar > div:first-child .contact {
+        text-align: center;
+      }
+
+      /* 5. Adjust Nested Form Widths (for small screen usability) */
+      .project-detail-section input[type="text"], 
+      .project-detail-section input[type="email"], 
+      .project-detail-section input[type="number"], 
+      .project-detail-section select,
+      .project-detail-section textarea {
+          width: 95%; /* Make forms much wider for touch input */
+      }
+      
+      /* Ensure contact form inputs are also full width */
+      .message_form-input {
+          width: 100% !important; 
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo">KG</div>
+        <div>
+          <h1>Kirubiel G.</h1>
+          <p>Senior IT Support Specialist • Web Developer • Systems & Infrastructure</p>
+        </div>
+      </div>
+
+      <nav>
+        <a href="#summary">Summary</a>
+        <a href="#projects">Projects</a>
+        <a href="#vision-goals">Goals</a>
+        <a href="#experience">Experience</a>
+        <a href="#skills">Skills</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <div class="grid">
+      <aside class="sidebar">
+        <div style="display:flex;gap:12px;align-items:center">
+          <div class="photo">KG</div>
+          <div>
+            <strong style="font-size:16px">Kirubiel G.</strong>
+            <div class="contact">Nashville, TN, USA</div>
+          </div>
+        </div>
+
+        <div class="contact" style="margin-top:12px">
+          <div>Email: <a href="mailto:kirubielg21@gmail.com">kirubielg21@gmail.com</a></div>
+          <div>Phone: <a href="tel:+16152007802">(615) 200-7802</a></div>
+          <div>LinkedIn: <a href="https://www.linkedin.com/in/kirubielg" target="_blank">linkedin.com/in/kirubielg</a></div>
+        </div>
+
+        <div class="skills" id="certifications-sidebar">
+          <h4 style="margin-top:14px">Certifications</h4>
+          <ul style="color:var(--muted);font-size:14px">
+            <li>ITIL V4</li>
+            <li>CompTIA A+</li>
+            <li>Linux (LPI)</li>
+            <li>MuleSoft Developer I</li>
+            <li>CCNA (In Progress)</li>
+            <li>CompTIA Security+ (In Progress)</li>
+          </ul>
+        </div>
+
+        <div class="skills" id="education-sidebar">
+            <h4 style="margin-top:14px">Education</h4>
+            <p style="color:var(--muted);font-size:14px">B.S. Computer Science, WGU, Dec 2026</p>
+        </div>
+
+        <div class="skills" id="key-skills-sidebar">
+          <h4 style="margin-top:14px">Key Expertise</h4>
+          <div class="chip-list">
+            <span class="chip">ITSM • ITIL V4</span>
+            <span class="chip">Intune • JAMF (Endpoint Mgmt)</span>
+            <span class="chip">NVIDIA Server Support (GB200/GB300)</span>
+            <span class="chip">Linux (RHEL, Ubuntu, CentOS)</span>
+            <span class="chip">Active Directory</span>
+            <span class="chip">Networking (TCP/IP, DHCP, DNS)</span>
+            <span class="chip">MuleSoft API Development</span>
+            <span class="chip">HTML/CSS/JS</span>
+          </div>
+        </div>
+      </aside>
+
+      <main class="main-card">
+        <section class="hero" id="summary">
+          <div class="title">
+            <h2 id="title">Hi, Welcome to my site!</h2>
+            <p class="lead" id="intro" style="margin-bottom: 24px;">"Step into a world where imagination knows no bounds, and creativity is the guiding star. I'm Kirubiel G., an IT Generalist transitioning into full-stack web development. This is my digital playground, where design, innovation, and passion converge."</p>
+
+            <h2 style="font-size: 20px; margin-bottom: 4px;">Senior IT Support Specialist — Systems & Infrastructure</h2>
+            <p class="lead">Senior IT Support Specialist at VUMC with 7+ years of experience spanning end-user support to critical infrastructure maintenance. Expert in ITIL V4 and ITSM implementation, proficient in endpoint management tools like Microsoft Intune and JAMF. Certified in CompTIA A+, ITIL V4, and Linux.</p>
+            <div style="margin-top:8px" class="cta">
+              <a class="btn" href="#contact">Contact Me</a>
+              <a class="ghost" href="#experience">View Full Resume</a>
+            </div>
+          </div>
+        </section>
+
+        <div class="card" id="projects">
+            <h3>Web Development Projects Overview</h3>
+            <p class="lead">Click on a project tile below to view the full details, or click on the individual project headers to collapse/expand them.</p>
+            <div class="project-grid">
+                <a href="#project-tribute" class="project-tile">
+                    <div style="height:100px; background:#4f46e5; border-radius:8px; display:grid; place-items:center; color:#fff; font-size:14px;">Tribute Page Preview</div>
+                    <p class="p-title">Tribute Page</p>
+                </a>
+                <a href="#project-survey" class="project-tile">
+                    <div style="height:100px; background:#10b981; border-radius:8px; display:grid; place-items:center; color:#fff; font-size:14px;">Survey Form Preview</div>
+                    <p class="p-title">Survey Form</p>
+                </a>
+                <a href="#project-landing" class="project-tile">
+                    <div style="height:100px; background:#f97316; border-radius:8px; display:grid; place-items:center; color:#fff; font-size:14px;">Product Landing Page Preview</div>
+                    <p class="p-title">Product Landing Page</p>
+                </a>
+                <a href="#project-docs" class="project-tile">
+                    <div style="height:100px; background:#0e7490; border-radius:8px; display:grid; place-items:center; color:#fff; font-size:14px;">Technical Documentation Preview</div>
+                    <p class="p-title">Technical Documentation Page</p>
+                </a>
+            </div>
+
+            <div class="project-detail-section">
+                <div class="nested-card" id="project-tribute">
+                    <div class="project-header" onclick="toggleProjectContent('tribute-content')">
+                        Tribute Page: Teddy Afro Biography 
+                        <span id="tribute-content-icon" class="toggle-icon rotated">▶</span>
+                    </div>
+                    <div id="tribute-content" class="project-toggle-content">
+                        <p>This project showcases basic HTML structure and styling for presenting biographical information in an organized, readable format.</p>
+                        <div style="text-align: center; margin-bottom: 15px;">
+                            <h1 style="font-size: 2rem; color:#e6f6ff; margin-bottom: 5px;">Teddy Afro</h1>
+                            <h2 style="font-size: 1.2rem; color:var(--accent);">Ethiopian Singer-songwriter</h2>
+                            <img style="max-width: 40%; height: auto; border-radius: 8px; margin: 10px 0;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Teddy_Afro.jpg/1280px-Teddy_Afro.jpg" alt="Ethiopian Singer Teddy Afro" />
+                            <figcaption style="color: var(--muted); font-size: 12px;">Ethiopian Singer Teddy Afro</figcaption>
+                        </div>
+                        <p><strong>Tewodros Kassahun Germamo</strong> (Amharic: ቴዎድሮስ ካሳሁን ገርማሞ; born 14 July 1976), known professionally as Teddy Afro, is an Ethiopian singer-songwriter. Known by his revolutionary songs and political dissent sentiment, Teddy is considered one of the most significant Ethiopian artists of all time.</p>
+                        <h4 style="font-size: 16px; margin-top: 15px;">Life and career Highlights:</h4>
+                        <ul>
+                            <li><strong>1976–2001: Early years</strong>: Born in Addis Ababa; parents encouraged his music career.</li>
+                            <li><strong>2001–2007: Abugida, Teddy and Yasteseryal</strong>: Debut album *Abugida* (2001); controversial third album *Yasteseryal* (2005) criticized government corruption, leading to a ban on four songs. Album sold over a million copies.</li>
+                            <li><strong>2012–2017: Tikur Sew and Ethiopia</strong>: *Tikur Sew* (2012) dedicated to Emperor Menelik II and the Battle of Adwa. *Ethiopia* (2017) reached the top of the Billboard World Albums chart.</li>
+                            <li><strong>2020–present</strong>: Released "Demo Be Abay", a song dedicated to the Abbay river (Blue Nile River) and critiquing Egyptian claims over its waters.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="nested-card" id="project-survey">
+                    <div class="project-header" onclick="toggleProjectContent('survey-content')">
+                        Survey Form Mockup 
+                        <span id="survey-content-icon" class="toggle-icon rotated">▶</span>
+                    </div>
+                    <div id="survey-content" class="project-toggle-content">
+                        <p>A simple form designed to collect user preferences on web browsers and search engines, demonstrating basic input handling and selection elements.</p>
+                        <form id="survey-form">
+                            <label id="name-label" for="name">Name</label>
+                            <input id="name" type="text" required placeholder="Enter your name" />
+                            
+                            <label id="email-label" for="email">Email</label>
+                            <input id="email" type="email" required placeholder="Enter your email" />
+                            
+                            <label id="number-label" for="number">Age</label>
+                            <input id="number" type="number" min="13" max="70" placeholder="Enter your age" />
+                            
+                            <label for="dropdown"><strong>Gender:</strong></label>
+                            <select id="dropdown">
+                                <option value="select">select</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Prefer not to say</option>
+                            </select>
+                            <br>
+
+                            <p style="color:#e6f6ff; font-weight: 600;">What is your favorite web browser? (select all that apply)</p>
+                            <label style="color:var(--muted);"><input type="checkbox" name="Web-browser" value="google-chrome"> Google Chrome</label>
+                            <label style="color:var(--muted);"><input type="checkbox" name="Web-browser" value="safari"> Safari</label>
+                            <label style="color:var(--muted);"><input type="checkbox" name="Web-browser" value="opera"> Opera</label>
+                            <label style="color:var(--muted);"><input type="checkbox" name="Web-browser" value="Microsoft-edge"> Microsoft Edge</label>
+                            <label style="color:var(--muted);"><input type="checkbox" name="web-browser" value="firefox"> Firefox</label>
+                            <br>
+
+                            <p style="color:#e6f6ff; font-weight: 600;">What is your best search engine?</p>
+                            <label style="color:var(--muted);"><input type="radio" name="search-enjine" checked value="google"> Google</label>
+                            <label style="color:var(--muted);"><input type="radio" name="search-enjine" value="bing"> Bing</label>
+                            <label style="color:var(--muted);"><input type="radio" name="search-enjine" value="brave"> Brave</label>
+                            <label style="color:var(--muted);"><input type="radio" name="search-enjine" value="Duckduckgo"> Duckduckgo</label>
+                            <br>
+
+                            <p style="color:#e6f6ff; font-weight: 600;">Which search engine and web browser do you recommend? and why?</p>
+                            <textarea name="comment" id="comment" cols="50" rows="5" placeholder="Enter your comment here..."></textarea><br>
+
+                            <button id="submit-survey" type="submit" class="form-submit-btn">Submit Survey</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="nested-card" id="project-landing">
+                    <div class="project-header" onclick="toggleProjectContent('landing-content')">
+                        Product Landing Page: Frontpoint Security
+                        <span id="landing-content-icon" class="toggle-icon rotated">▶</span>
+                    </div>
+                    <div id="landing-content" class="project-toggle-content">
+                        <p>A promotional page mockup featuring a product sign-up form and video review. Demonstrates basic commercial layout and call-to-action integration.</p>
+                        <div style="text-align: center;">
+                            <h4 style="margin-top: 0; padding-top: 0; color: #e6f6ff;">Sign up here to place your order:</h4>
+                            <form id="form" action="https://www.freecodecamp.com/email-submit">
+                                <label for="name">Name:</label>
+                                <input type="text" id="name" name="name" placeholder="Type your name" /><br>
+                                <label> Email address:</label>
+                                <input type="email" id="email" name="email" placeholder="Enter your email" /><br>
+                                <label for="address">Address:</label>
+                                <input type="text" id="address" placeholder="Enter your address" /><br>
+                                <input type="submit" id="submit-landing" value="Submit" class="form-submit-btn">
+                            </form>
+                        </div>
+
+                        <h4 style="font-size: 16px;">Product Review: FrontPoint Security</h4>
+                        <p style="text-align: center;">Watch this video to know more about FrontPoint home security</p>
+                        <div style="text-align: center;">
+                            <iframe id="video" width="560" height="315" src="https://www.youtube.com/embed/GapAnUc3Asg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                        
+                        <h4 style="font-size: 16px;">About Frontpoint:</h4>
+                        <p>
+                            <strong>Frontpoint</strong> is built to be responsive and efficient whenever an emergency occurs. Each year, we service thousands of tripped home alarms and panic button distress signals. We take tremendous pride in our rapid response levels and always keep you and your family in good hands.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="nested-card" id="project-docs">
+                    <div class="project-header" onclick="toggleProjectContent('docs-content')">
+                        Technical Documentation: Mule Runtime Engine
+                        <span id="docs-content-icon" class="toggle-icon rotated">▶</span>
+                    </div>
+                    <div id="docs-content" class="project-toggle-content">
+                        <p>A multi-section documentation page mockup demonstrating complex vertical navigation and content structuring suitable for technical manuals.</p>
+                        <div style="display: flex; gap: 20px;">
+                            <nav id="navbar-docs" style="flex: 0 0 180px; padding: 10px; background: rgba(0,0,0,0.3); border-radius: 6px;">
+                                <header style="font-size: 16px; color: var(--accent); margin-bottom: 10px;">Mule Documentation</header>
+                                <ul style="list-style-type: none; margin-left: 0; padding-left: 0; font-size: 14px;">
+                                    <li><a class="nav-link" style="color: #dceeff; display: block; padding: 5px 0;" href="#doc-intro">Introduction</a></li>
+                                    <li><a class="nav-link" style="color: #dceeff; display: block; padding: 5px 0;" href="#doc-applications">Mule Applications</a></li>
+                                    <li><a class="nav-link" style="color: #dceeff; display: block; padding: 5px 0;" href="#doc-domains">Mule Domains</a></li>
+                                    <li><a class="nav-link" style="color: #dceeff; display: block; padding: 5px 0;" href="#doc-policies">Policies</a></li>
+                                    <li><a class="nav-link" style="color: #dceeff; display: block; padding: 5px 0;" href="#doc-maven">Maven Support</a></li>
+                                    <li><a class="nav-link" style="color: #dceeff; display: block; padding: 5px 0;" href="#doc-deployment">Deployment</a></li>
+                                    <li><a class="nav-link" style="color: #dceeff; display: block; padding: 5px 0;" href="#doc-errors">Mule Errors</a></li>
+                                </ul>
+                            </nav>
+
+                            <div id="main-doc-content" style="flex: 1;">
+                                <section id="doc-intro">
+                                    <h4 style="font-size: 16px;">Introduction</h4>
+                                    <p><strong>Mule runtime engine (Mule)</strong> is a lightweight integration engine that runs Mule applications and supports domains and policies. Mule applications, domains, and policies share an XML DSL (domain-specific language).</p>
+                                </section>
+                                <section id="doc-applications">
+                                    <h4 style="font-size: 16px;">Mule Applications</h4>
+                                    <p>Mule applications connect systems, services, APIs, and devices using API-led connectivity instead of point-to-point integrations. Mule applications provide functionality for message routing, data mapping, orchestration, reliability, security, and scalability. Anypoint Studio and Flow Designer support Mule application development.</p>
+                                </section>
+                                <section id="doc-domains">
+                                    <h4 style="font-size: 16px;">Mule Domains</h4>
+                                    <p>Domains enable you to share global configurations that Mule applications need to reuse, such as default error handlers, shared properties, scheduler pools, and component configurations. You can only deploy domains when running Mule runtime engine on premises.</p>
+                                </section>
+                                <section id="doc-policies">
+                                    <h4 style="font-size: 16px;">Policies</h4>
+                                    <p>Policies on HTTP-based APIs can enforce security, regulate traffic through Mule applications, and adapt APIs to your business needs. Mule includes an embedded API Gateway, which enables you to apply security policies to an API, enrich incoming or outgoing messages, and add capabilities to an API without having to write any code.</p>
+                                </section>
+                                <section id="doc-maven">
+                                    <h4 style="font-size: 16px;">Maven Support</h4>
+                                    <p>Maven is a project management utility that Mule implements to enhance project development. You can integrate the packaging, testing, and deployment of your Mule applications, domains, and custom policies with your Maven lifecycle using the Mule Maven plugin.</p>
+                                </section>
+                                <section id="doc-deployment">
+                                    <h4 style="font-size: 16px;">Mule Installation, Deployment, and Management</h4>
+                                    <p>Mule is packaged within the Studio IDE and with Design Center on Anypoint Platform. For production deployments, you can use Runtime Manager to deploy Mule apps to runtimes within CloudHub and other supported platform as a service (PaaS) solutions.</p>
+                                    <ul style="margin-left: 0; padding-left: 20px;">
+                                        <li>CloudHub is a fully managed, cloud-based integration platform as a service (iPaaS).</li>
+                                        <li>Hybrid deployment models manage Mule apps and runtimes from the Cloud while running them in a datacenter managed by your company.</li>
+                                    </ul>
+                                </section>
+                                <section id="doc-errors">
+                                    <h4 style="font-size: 16px;">Mule Errors</h4>
+                                    <p>Mule execution failures result in an error object. Errors are grouped into hierarchical error types (e.g., <code>HTTP:NOT_FOUND</code>, <code>DB:BAD_SYNTAX</code>). You can handle error objects with On-Error components.</p>
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+
+        <div class="card" id="vision-goals">
+          <h3>🚀 My Vision & Future Goals</h3>
+          <p style="color:var(--muted)">My career journey is pivoting from highly effective IT infrastructure support towards **Full-Stack Web Development** and **Cloud Engineering**. While my foundation in ITIL V4, endpoint management (Intune/JAMF), and critical server support (NVIDIA) remains crucial, my focus is now on building robust, scalable, and user-friendly digital solutions.</p>
+
+          <h4 style="margin-top:12px">Key Transitional Goals:</h4>
+          <ul style="color:var(--muted);font-size:14px">
+            <li>**Master Front-End Frameworks:** Deepen proficiency in modern JavaScript frameworks (e.g., React or Vue) to deliver highly interactive user experiences.</li>
+            <li>**Cloud and DevOps Proficiency:** Achieve the **CCNA** certification (currently in progress) and secure certifications in a leading cloud platform (AWS or Azure) to manage and deploy scalable infrastructure.</li>
+            <li>**Backend Development:** Transition from MuleSoft API design to building custom backend services using Node.js or Python, focusing on database optimization and security.</li>
+            <li>**WGU Degree Completion:** Successfully complete the B.S. in Computer Science by December 2026, leveraging formal knowledge in algorithms and data structures to write efficient code.</li>
+          </ul>
+
+          <p style="color:var(--muted); margin-top: 14px;">My immediate goal is to secure a role that allows me to apply my rigorous IT troubleshooting background while actively developing my full-stack capabilities, bridging the gap between stable infrastructure and innovative application development.</p>
+        </div>
+
+        <div class="card" id="experience">
+          <h3>Professional Work Experience</h3>
+          <div style="margin-bottom:18px">
+            <h4>Senior IT Support Specialist</h4>
+            <strong style="color:var(--accent)">Vanderbilt University Medical Center (VUMC)</strong> | Nashville, TN
+            <p style="font-size:13px; color:var(--muted); margin-top:2px">January 2022 to Present</p>
+            <ul style="color:var(--muted);font-size:14px; margin-top:8px">
+              <li>Deliver exceptional customer service while diagnosing and repairing desktop and laptop hardware/software issues in alignment with Managed Client policies.</li>
+              <li>Resolve **40+ incident and IMAC tickets weekly** while coordinating with end users for on-site and remote support.</li>
+              <li>Perform system upgrades, deployments, and parts replacement for client assets across campus and remote locations.</li>
+              <li>Escalate critical issues and collaborate with Level 1 and Level 2 teams to improve service delivery.</li>
+              <li>Assist with basic server and storage configurations and support tasks.</li>
+            </ul>
+          </div>
+          <div style="margin-bottom:8px">
+            <h4>IT Technician</h4>
+            <strong style="color:var(--accent)">Earle C. Clements Job Corps Academy</strong> | Morganfield, KY
+            <p style="font-size:13px; color:var(--muted); margin-top:2px">January 2020 to January 2022</p>
+            <ul style="color:var(--muted);font-size:14px; margin-top:8px">
+              <li>Assisted students and instructors with computer, printer, and software issues.</li>
+              <li>Repaired and maintained desktop and laptop hardware.</li>
+              <li>Worked with the network team on the setup and configuration of wired/wireless networks.</li>
+              <li>Helped manage user accounts and permissions in Active Directory.</li>
+            </ul>
+          </div>
+          <div style="margin-bottom:18px">
+            <h4>Sr. Server Support Engineer</h4>
+            <strong style="color:var(--accent)">Quanta Computer Inc.</strong> | La Vergne, TN
+            <p style="font-size:13px; color:var(--muted); margin-top:2px">July 2018 to January 2020</p>
+            <ul style="color:var(--muted);font-size:14px; margin-top:8px">
+              <li>Diagnose and resolve hardware and software issues on **NVIDIA servers** to ensure maximum uptime and system integrity.</li>
+              <li>Perform routine maintenance and health checks on **NVIDIA GB200/GB300 servers**, including firmware updates and component refreshes.</li>
+              <li>Conduct root cause analysis, track recurring problems, and implement corrective measures to optimize efficiency, stability, and reliability.</li>
+              <li>Maintain detailed documentation of configurations, maintenance logs, and troubleshooting procedures.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card" id="skills">
+          <h3>Technical Skills & Expertise</h3>
+          <div class="resume-grid">
+            <div>
+              <h4>IT Service Management (ITSM)</h4>
+              <ul style="color:var(--muted);font-size:14px">
+                <li>**ITIL V4 Framework Implementation** and the Service Value System (SVS).</li>
+                <li>Familiarity with ITSM Tools: **ServiceNow**, **Jira SM**.</li>
+                <li>Group Policy Management and Active Directory Administration.</li>
+              </ul>
+
+              <h4 style="margin-top:12px">Operating Systems & Endpoints</h4>
+              <ul style="color:var(--muted);font-size:14px">
+                <li>Expertise in Windows OS troubleshooting and problem resolution.</li>
+                <li>OS Proficiencies: **Windows**, **macOS**, and **Linux Distros** (Ubuntu, CentOS, RHEL, Debian).</li>
+                <li>Endpoint Management Tools: **Microsoft Intune**, **JAMF**.</li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 style="margin-top:0px">Networking & Infrastructure</h4>
+              <ul style="color:var(--muted);font-size:14px">
+                <li>Strong foundation in Networking: TCP/IP, DHCP, DNS.</li>
+                <li>Network Troubleshooting and Maintenance, LAN/WAN Setup and Configuration.</li>
+                <li>Router Configuration and Management.</li>
+                <li>Server management frameworks: **IPMI**, **iLO**.</li>
+                <li>Virtualization: **VMware**, **VirtualBox**.</li>
+              </ul>
+
+              <h4 style="margin-top:12px">MuleSoft & Web Dev</h4>
+              <ul style="color:var(--muted);font-size:14px">
+                <li>Expertise in **MuleSoft Anypoint Platform**, DataWeave transformations, and API design.</li>
+                <li>API (MULE4), integration patterns, error handling, and deployment with CI/CD tools.</li>
+                <li>**HTML5, CSS3, JavaScript** for web development and portfolio maintenance.</li>
+                <li>Information Security and Cybersecurity awareness.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" id="availability">
+          <h3>Availability Estimator (JavaScript Demo)</h3>
+          <p style="color:var(--muted)">Toggle your weekly availability — hours auto-calc below.</p>
+
+          <table id="availabilityTable" aria-label="Weekly availability">
+            <caption style="text-align:left;color:var(--muted);margin-bottom:8px">Weekly Availability (Example)</caption>
+            <thead>
+              <tr><th>Day</th><th>AM</th><th>PM</th><th>Daily Hours</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Mon</td><td><label class="switch"><input type="checkbox" class="am" checked><span class="slider"></span></label></td><td><label class="switch"><input type="checkbox" class="pm" checked><span class="slider"></span></label></td><td class="hours">0 hrs</td></tr>
+              <tr><td>Tue</td><td><label class="switch"><input type="checkbox" class="am" checked><span class="slider"></span></label></td><td><label class="switch"><input type="checkbox" class="pm"><span class="slider"></span></label></td><td class="hours">0 hrs</td></tr>
+              <tr><td>Wed</td><td><label class="switch"><input type="checkbox" class="am"><span class="slider"></span></label></td><td><label class="switch"><input type="checkbox" class="pm" checked><span class="slider"></span></label></td><td class="hours">0 hrs</td></tr>
+              <tr><td>Thu</td><td><label class="switch"><input type="checkbox" class="am"><span class="slider"></span></label></td><td><label class="switch"><input type="checkbox" class="pm" checked><span class="slider"></span></label></td><td class="hours">0 hrs</td></tr>
+              <tr><td>Fri</td><td><label class="switch"><input type="checkbox" class="am"><span class="slider"></span></label></td><td><label class="switch"><input type="checkbox" class="pm" checked><span class="slider"></span></label></td><td class="hours">0 hrs</td></tr>
+            </tbody>
+          </table>
+
+          <div style="margin-top:12px;color:var(--muted)" id="summaryBox">
+            <strong>Total Weekly Hours:</strong> <span id="totalHours">0</span> hrs<br>
+            <strong>Busiest Day(s):</strong> <span id="busiestDays">—</span>
+          </div>
+        </div>
+
+        <div class="card" id="contact">
+          <h3>Contact & Social Links</h3>
+          <p style="color:var(--muted)">Please use the form below to send a quick message or connect with me via email or social media.</p>
+
+          <form action="#" class="message_form" style="margin-top: 20px;">
+            <div class="message_form-div">
+              <label for="name" class="message_form-tag"> Name </label>
+              <input type="text" placeholder="Your Name" class="message_form-input">
+            </div>
+
+            <div class="message_form-div">
+              <label for="email" class="message_form-tag"> Email </label>
+              <input type="email" placeholder="Your Email" class="message_form-input">
+            </div>
+
+            <div class="message_form-div message_form-area">
+              <label for="message" class="message_form-tag"> Message </label>
+              <textarea name="" id="" cols="30" rows="10" placeholder="Write Your message..." class="message_form-input"></textarea>
+            </div>
+
+            <button class="btn" style="border:none; cursor:pointer;">Send Message</button>
+          </form>
+
+          <div id="contact-icon" style="margin-top: 20px;">
+              <a href="https://www.linkedin.com/in/kirubielg" target="_blank"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/LinkedIn_icon.svg/2048px-LinkedIn_icon.svg.png" alt="linkedin"></a>
+              <a href="https://facebook.com" target="_blank"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Facebook_logo_36x36.svg/1200px-Facebook_logo_36x36.svg.png" alt="facebook"></a>
+              <a href="https://github.com" target="_blank"><img src="https://logos-download.com/wp-content/uploads/2016/09/GitHub_logo.png" alt="github"></a>
+              <a href="https://twitter.com" target="_blank"><img src="https://vectorseek.com/wp-content/uploads/2023/07/Twitter-X-Logo-Vector-01-2.jpg" alt="twitter"></a>
+          </div>
+        </div>
+
+
+        <footer>© 2025 Kirubiel G. — Portfolio & Resume</footer>
+      </main>
+
+    </div>
+
+  </div>
+
+  <script>
+    // --- Project Toggle Logic (NEW) ---
+    function toggleProjectContent(contentId) {
+      const content = document.getElementById(contentId);
+      const icon = document.getElementById(contentId + '-icon');
+      
+      content.classList.toggle('hidden');
+      icon.classList.toggle('rotated');
+    }
+
+    // --- Initialization and Existing Logic ---
+    document.addEventListener('DOMContentLoaded', () => {
+        // Initialize all project detail sections to be hidden by default
+        const projectContents = document.querySelectorAll('.project-toggle-content');
+        projectContents.forEach(content => {
+            if (content) {
+                content.classList.add('hidden');
+            }
+        });
+        
+        // --- Availability Logic (Existing) ---
+        function updateHours(){
+          const rows = document.querySelectorAll('#availabilityTable tbody tr');
+          let dayHours = {};
+          let total = 0;
+          rows.forEach(row=>{
+            const day = row.children[0].textContent.trim();
+            const am = row.querySelector('.am');
+            const pm = row.querySelector('.pm');
+            const hoursCell = row.querySelector('.hours');
+            let hours = 0;
+            // Assuming AM is 8am-12pm (4hrs) and PM is 1pm-5pm (4hrs)
+            if(am && am.checked) hours += 4;
+            if(pm && pm.checked) hours += 4;
+            hoursCell.textContent = hours + ' hrs';
+            dayHours[day] = hours;
+            total += hours;
+          });
+          document.getElementById('totalHours').textContent = total;
+          const maxHours = Math.max(...Object.values(dayHours));
+          const busiest = Object.keys(dayHours).filter(d=>dayHours[d]===maxHours && maxHours>0);
+          document.getElementById('busiestDays').textContent = busiest.length?busiest.join(', '):'—';
+        }
+        updateHours();
+        document.querySelectorAll('.am, .pm').forEach(i=>i.addEventListener('change', updateHours));
+    });
+  </script>
+</body>
+</html>
